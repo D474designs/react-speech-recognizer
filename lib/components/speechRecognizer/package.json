@@ -1,4 +1,0 @@
-{
- "name": "Speech recognizer",
- "main": "./index.js"
-}
