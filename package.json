@@ -1,6 +1,6 @@
 {
-  "name": "react-speech-recognition",
-  "version": "0.1.0",
+  "name": "react-speech-recognizer",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
