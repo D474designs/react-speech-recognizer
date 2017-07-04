@@ -1,6 +1,4 @@
 {
-  "name": "react-speech-recognizer",
-  "version": "0.0.1",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",

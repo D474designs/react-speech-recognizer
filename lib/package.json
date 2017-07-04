@@ -1,0 +1,9 @@
+{
+ "name": "react-speech-recognizer",
+ "version": "0.0.2",
+ "private": false,
+ "main": "./index.js",
+ "peerDependencies": {
+    "react": ">=15"
+  }
+}
