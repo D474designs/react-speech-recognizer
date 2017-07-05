@@ -46,7 +46,7 @@
     "extends": "react-app"
   },
   "peerDependencies": {
-     "react": ">=15"
+    "react": ">=15"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -91,5 +91,8 @@
     "webpack-dev-server": "2.5.0",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.3"
+  },
+  "dependencies": {
+    "shallowequal": "^1.0.1"
   }
 }
