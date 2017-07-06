@@ -12,10 +12,10 @@ const App = () =>
   </div>
 */
 
-const FirstStep = ({onSuccess, onFailure}) =>
+const Step = ({word, onSuccess, onFailure}) =>
   <div>
-    <p>Say "hello" to go to next step</p>
-    <WordDetector word='hello' onSuccess={onSuccess} onFailure={onFailure} />
+    <p>Say {word} to go to next step</p>
+    <WordDetector word={word} onSuccess={onSuccess} onFailure={onFailure} />
   </div>
 
 const LastStep = () => <div> SUCCESS </div>
@@ -24,24 +24,32 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 0,
+      currentWord: 0
     }
     this.onSuccess = this.onSuccess.bind(this)
     this.onFailure = this.onFailure.bind(this)
+    this.words = [
+      'piece of cake',
+      'sun',
+      'star',
+      'gymnasium'
+    ]
   }
   onSuccess(res, attempts) {
     console.log("onSuccess", res, attempts)
+    const { currentWord } = this.state
     this.setState({
-      step: 1
+      currentWord: currentWord + 1
     })
   }
   onFailure(res, attempts) {
     console.log("onFailure", res, attempts)
   }
   render() {
-    const { step } = this.state
-    return step === 0
-      ? <FirstStep onSuccess={this.onSuccess} onFailure={this.onFailure} />
+    const { step, currentWord } = this.state
+    const word = this.words[currentWord]
+    return word
+      ? <Step word={word} onSuccess={this.onSuccess} onFailure={this.onFailure} />
       : <LastStep />
   }
 }
