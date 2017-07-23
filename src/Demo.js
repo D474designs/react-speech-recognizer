@@ -2,15 +2,45 @@ import React, { Component } from 'react'
 import SpeechRecognizer from 'components/speechRecognizer'
 import WordDetector from 'components/wordDetector'
 
-/*
-const App = () =>
-  <div>
-    Speech recognizer:
-    <SpeechRecognizer onResult={(res) => console.log("res", res)} onTempResult={(res) => console.log("temp res", res)}
-      onError={(error) => console.log("error", error)}
-    />
-  </div>
-*/
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      tab: 0
+    }
+  }
+
+  changeTab(index) {
+    this.setState({
+      tab: index
+    })
+  }
+
+  render() {
+    const { tab } = this.state
+
+    const tabContent = (tab === 0)
+      ? (
+        <div>
+          <h1> Speech recognition </h1>
+          <SpeechTest />
+        </div>
+      ):(
+        <div>
+          <h1> Word detection </h1>
+          <WordsList />
+        </div>
+      )
+
+    return (
+      <div>
+        <button onClick={() => this.changeTab(0)}>Speech recognition</button>
+        <button onClick={() => this.changeTab(1)}>Word detection</button>
+        {tabContent}
+      </div>
+    )
+  }
+}
 
 const Step = ({word, onSuccess, onFailure}) =>
   <div>
@@ -20,7 +50,7 @@ const Step = ({word, onSuccess, onFailure}) =>
 
 const LastStep = () => <div> SUCCESS </div>
 
-class App extends Component {
+class WordsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,6 +81,47 @@ class App extends Component {
     return word
       ? <Step word={word} onSuccess={this.onSuccess} onFailure={this.onFailure} />
       : <LastStep />
+  }
+}
+
+class SpeechTest extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      lastWord: ''
+    }
+    this.saveWord = this.saveWord.bind(this)
+  }
+
+  saveWord(word) {
+    this.setState({
+      lastWord: word
+    })
+  }
+
+  render() {
+    const { lastWord: { confidence = '' , transcript = ''}} = this.state
+    const content = transcript
+      ? <div>
+        <p>
+          You said: "{transcript}"
+        </p>
+        <p>
+          Confidence: {confidence * 100} %
+        </p>
+      </div>
+      : <div>
+        Speak into your microphone, the result will be displayed when you stop speaking
+      </div>
+
+    return (
+      <div>
+        <SpeechRecognizer onResult={this.saveWord} onTempResult={(res) => console.log("temp result: ", res)}
+          onError={(error) => console.log("error", error)}
+        />
+        {content}
+      </div>
+    )
   }
 }
 
