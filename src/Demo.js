@@ -45,7 +45,7 @@ class App extends Component {
 const Step = ({word, onSuccess, onFailure}) =>
   <div>
     <p>Say <strong>{word}</strong> to go to next step</p>
-    <WordDetector word={word} onSuccess={onSuccess} onFailure={onFailure} />
+    <WordDetector onNotAvailable={() => alert('not available in your browser')} word={word} onSuccess={onSuccess} onFailure={onFailure} />
   </div>
 
 const LastStep = () => <div> Well done ! </div>
@@ -126,7 +126,7 @@ class SpeechTest extends Component {
 
     return (
       <div>
-        <SpeechRecognizer onResult={this.saveWord} onTempResult={(res) => console.log("onTempResult", res)}
+        <SpeechRecognizer onNotAvailable={() => alert('not available in your browser')} onResult={this.saveWord} onTempResult={(res) => console.log("onTempResult", res)}
           onError={(error) => console.log("error", error)}
         />
         {content}
