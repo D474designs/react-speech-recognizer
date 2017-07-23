@@ -44,24 +44,25 @@ class App extends Component {
 
 const Step = ({word, onSuccess, onFailure}) =>
   <div>
-    <p>Say {word} to go to next step</p>
+    <p>Say <strong>{word}</strong> to go to next step</p>
     <WordDetector word={word} onSuccess={onSuccess} onFailure={onFailure} />
   </div>
 
-const LastStep = () => <div> SUCCESS </div>
+const LastStep = () => <div> Well done ! </div>
 
 class WordsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentWord: 0
+      currentWord: 0,
+      attempts: 0
     }
     this.onSuccess = this.onSuccess.bind(this)
     this.onFailure = this.onFailure.bind(this)
     this.words = [
       'piece of cake',
-      'sun',
       'star',
+      'how are you',
       'gymnasium'
     ]
   }
@@ -69,18 +70,26 @@ class WordsList extends Component {
     console.log("onSuccess", res, attempts)
     const { currentWord } = this.state
     this.setState({
-      currentWord: currentWord + 1
+      currentWord: currentWord + 1,
+      attempts: 0
     })
   }
   onFailure(res, attempts) {
     console.log("onFailure", res, attempts)
+    this.setState({
+      attempts
+    })
   }
   render() {
-    const { step, currentWord } = this.state
+    const { step, currentWord, attempts } = this.state
     const word = this.words[currentWord]
     return word
-      ? <Step word={word} onSuccess={this.onSuccess} onFailure={this.onFailure} />
-      : <LastStep />
+      ? (
+        <div>
+          <Step word={word} onSuccess={this.onSuccess} onFailure={this.onFailure} />
+          <p> Attempts: {attempts} </p>
+        </div>
+      ): <LastStep />
   }
 }
 
@@ -94,6 +103,7 @@ class SpeechTest extends Component {
   }
 
   saveWord(word) {
+    console.log("onResult", word)
     this.setState({
       lastWord: word
     })
@@ -116,7 +126,7 @@ class SpeechTest extends Component {
 
     return (
       <div>
-        <SpeechRecognizer onResult={this.saveWord} onTempResult={(res) => console.log("temp result: ", res)}
+        <SpeechRecognizer onResult={this.saveWord} onTempResult={(res) => console.log("onTempResult", res)}
           onError={(error) => console.log("error", error)}
         />
         {content}
